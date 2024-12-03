@@ -31,17 +31,18 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountToken login(String username, String password) {
         try {
+            log.warn("调用 UserDetailService进行校验");
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password));
             //准备生产JWT
             log.warn("准备生成JWT");
-            log.warn("信息:{}" , JSON.toJSONString(authentication));
-            List<String> permissions = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-            log.warn("权限:{}" , JSON.toJSONString(permissions));
-            List<String> roles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-            log.warn("角色:{}" , JSON.toJSONString(roles));
-            String token = jwtUtil.generateToken(authentication.getName() , roles , permissions);
-
+//            log.warn("信息:{}" , JSON.toJSONString(authentication));
+//            List<String> permissions = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+//            log.warn("权限:{}" , JSON.toJSONString(permissions));
+//            List<String> roles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+//            log.warn("角色:{}" , JSON.toJSONString(roles));
+            String token = jwtUtil.generateToken(authentication.getName() );
+            log.warn("生成的TOKEN:{}" , token);
             SecurityContextHolder.getContext().setAuthentication(authentication);// 将认证信息存储到 SecurityContext 中
 
             return new AccountToken(token , JwtUtil.EXPIRATION);

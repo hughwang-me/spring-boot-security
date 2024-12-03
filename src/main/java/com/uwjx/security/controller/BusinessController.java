@@ -26,17 +26,31 @@ public class BusinessController {
         return JSON.toJSONString(authentication);
     }
 
-    @PreAuthorize("hasRole('father')")
-    @PostMapping("checkRoleFather")
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("checkRoleUser")
     public String checkRoleFather(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         log.warn("打印当前登录用户的用户信息:{}" , JSON.toJSONString(authentication));
         return "success";
     }
 
-    @PreAuthorize("hasAuthority('acl_code101')")
-    @PostMapping("checkPermissionCode101")
-    public String checkPermissionCode101(){
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("checkRoleAdmin")
+    public String checkRoleAdmin(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.warn("打印当前登录用户的用户信息:{}" , JSON.toJSONString(authentication));
+        return "success";
+    }
+
+    @PreAuthorize("hasAuthority('DELETE')")
+    @PostMapping("checkPermissionDelete")
+    public String checkPermissionDelete(){
+        return "success";
+    }
+
+    @PreAuthorize("hasAuthority('READ')")
+    @PostMapping("checkPermissionRead")
+    public String checkPermissionRead(){
         return "success";
     }
 }

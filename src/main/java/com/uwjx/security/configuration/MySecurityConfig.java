@@ -1,6 +1,7 @@
 package com.uwjx.security.configuration;
 
 import com.uwjx.security.filter.MyJwtFilter;
+import com.uwjx.security.service.impl.UserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -62,20 +63,9 @@ public class MySecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        log.warn("@模拟加载用户信息到内存@");
-        return new InMemoryUserDetailsManager(
-                User.withUsername("wanghuan")
-                        .password(new BCryptPasswordEncoder().encode("123456"))
-                        .roles("father" , "son" , "mother")
-                        .authorities("query" , "delete" , "modify" , "insert" , "acl_code101")
-                        .build(),
-                User.withUsername("wangqian")
-                        .password(new BCryptPasswordEncoder().encode("123456"))
-                        .roles("son")
-                        .authorities("query" , "acl_code101" , "acl_code102" )
-                        .build()
-        );
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        log.warn("@初始化UserDetailsService@");
+//        return new UserDetailsServiceImpl();
+//    }
 }
